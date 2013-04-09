@@ -1,0 +1,46 @@
+(* Problem 01 *)
+let rec fib (n:int) : int =
+  match n with
+        0 -> 0
+      | 1 -> 1
+      | _ -> fib(n-1) + fib(n-2) ;;
+
+(* Problem 03 *)
+let rec fibsFromHelp (n, m, ret) : int list =
+  match (n,m,ret) with 
+      (0,_,_)                 -> [0]
+    | (1,_,_)                 -> [1;0]
+    | (_,0,_)                 -> (fibsFromHelp (n, (m+1), [0]))
+    | (_,1,_)                 -> (fibsFromHelp (n, (m+1), [1;0]))
+    | (_,_,retx::rety::rets)  -> if n>=m 
+                                 then (fibsFromHelp (n, (m+1), (retx+rety)::ret))
+                                 else ret
+    
+    
+
+let rec fibsFrom (n:int) : int list =
+  (fibsFromHelp (n, 0, [0])) ;;
+
+
+
+
+(* Problem 12 *)
+let rec encode (l: 'a list) : (int * 'a) list =
+  match l with 
+      [] -> []
+    | x::[] -> [(1,x)]
+    | xa::xb::xs -> if xa=xb then match (encode (xb::xs)) with
+                                    (ya::yb) -> match ya with
+                                                  (za,zb) -> [((za+1), zb)]@yb
+                                                 
+                             else ([(1,xa)]@(encode (xb::xs))) ;;
+
+
+
+(* Problem 14 *)
+let rec sort (l: int list) : int list =
+  match l with
+      []    -> []
+    | x::[] -> [x]
+    | xa::xb::[] -> if xa>xb then (xb::[xa]) else (xa::[xb])
+      
